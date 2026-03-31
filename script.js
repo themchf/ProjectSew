@@ -3,66 +3,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const patientTableBody = document.getElementById('patientTableBody');
     const searchInput = document.getElementById('searchInput');
 
-    // Load data from LocalStorage
-    let patients = JSON.parse(localStorage.getItem('drRazhanPatients')) || [];
-
-    function saveToLocalStorage() {
-        localStorage.setItem('drRazhanPatients', JSON.stringify(patients));
-    }
+    let patients = JSON.parse(localStorage.getItem('drRazhanRecords')) || [];
 
     function renderTable(filter = '') {
         patientTableBody.innerHTML = '';
         
-        const filteredPatients = patients.filter(p => 
-            p.name.toLowerCase().includes(filter.toLowerCase()) || 
-            p.phone.includes(filter)
-        );
+        const filtered = patients.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
 
-        filteredPatients.forEach((p, index) => {
+        filtered.forEach((p, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${p.date}</td>
-                <td><strong>${p.name}</strong></td>
-                <td>${p.phone}</td>
-                <td>${p.age} / ${p.gender}</td>
-                <td>${p.history || 'N/A'}</td>
+                <td><strong>${p.name}</strong><br><small>${p.phone}</small></td>
+                <td>${p.age}y / ${p.gender}</td>
+                <td style="max-width: 150px; color: #d63031;">${p.history || '-'}</td>
                 <td><span class="tag">${p.procedure}</span></td>
-                <td><button class="delete-btn" onclick="deletePatient(${index})">Delete</button></td>
+                <td style="max-width: 200px; font-style: italic; color: #636e72;">${p.notes || '-'}</td>
+                <td><button class="delete-btn" onclick="deleteRecord(${index})">Delete</button></td>
             `;
             patientTableBody.appendChild(row);
         });
     }
 
-    // Handle Form Submission
     patientForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const newPatient = {
+        const newEntry = {
             date: new Date().toLocaleDateString(),
             name: document.getElementById('name').value,
             phone: document.getElementById('phone').value,
             gender: document.getElementById('gender').value,
             age: document.getElementById('age').value,
             history: document.getElementById('medicalHistory').value,
+            notes: document.getElementById('clinicalNotes').value, // Saved here
             procedure: document.getElementById('procedure').value
         };
 
-        patients.unshift(newPatient); // Add to the top of the list
-        saveToLocalStorage();
+        patients.unshift(newEntry);
+        localStorage.setItem('drRazhanRecords', JSON.stringify(patients));
         renderTable();
         patientForm.reset();
     });
 
-    // Search Functionality
-    searchInput.addEventListener('input', (e) => {
-        renderTable(e.target.value);
-    });
+    searchInput.addEventListener('input', (e) => renderTable(e.target.value));
 
-    // Global Delete Function
-    window.deletePatient = (index) => {
-        if(confirm('Are you sure you want to delete this record?')) {
+    window.deleteRecord = (index) => {
+        if(confirm('Delete this patient record?')) {
             patients.splice(index, 1);
-            saveToLocalStorage();
+            localStorage.setItem('drRazhanRecords', JSON.stringify(patients));
             renderTable();
         }
     };
