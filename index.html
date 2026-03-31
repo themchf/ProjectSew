@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Razhan Kamil Clinic | Patient Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dr. Razhan Kamil Clinic</h1>
+            <p>Dental Patient Management System</p>
+        </header>
+
+        <section class="form-container">
+            <h2>Add New Patient</h2>
+            <form id="patientForm">
+                <div class="input-group">
+                    <input type="text" id="name" placeholder="Full Name" required>
+                    <input type="tel" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <select id="gender" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="number" id="age" placeholder="Age" required>
+                </div>
+                
+                <textarea id="medicalHistory" placeholder="Medical History (Allergies, Medications, etc.)" rows="3"></textarea>
+
+                <label for="procedure">Treatment Performed:</label>
+                <select id="procedure" required>
+                    <option value="" disabled selected>Select Procedure</option>
+                    <option value="Consultation & X-Ray">Consultation & X-Ray</option>
+                    <option value="Scaling & Polishing">Scaling & Polishing</option>
+                    <option value="Composite Filling">Composite Filling</option>
+                    <option value="Root Canal Treatment">Root Canal Treatment (RCT)</option>
+                    <option value="Simple Extraction">Simple Extraction</option>
+                    <option value="Surgical Extraction">Surgical Extraction</option>
+                    <option value="Fixed Bridge / Crown">Fixed Bridge / Crown</option>
+                    <option value="Removable Partial Denture">Removable Partial Denture</option>
+                    <option value="Orthodontic Adjustment">Orthodontic Adjustment</option>
+                    <option value="Teeth Whitening">Teeth Whitening</option>
+                </select>
+
+                <button type="submit" id="saveBtn">Save Patient Record</button>
+            </form>
+        </section>
+
+        <section class="list-container">
+            <h2>Patient Records</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name or phone...">
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Age/Sex</th>
+                            <th>Medical History</th>
+                            <th>Procedure</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
